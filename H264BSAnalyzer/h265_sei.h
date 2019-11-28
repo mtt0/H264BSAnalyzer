@@ -1,6 +1,4 @@
-#include <stdint.h>
-
-#ifndef _H265_SEI_H
+﻿#ifndef _H265_SEI_H
 #define _H265_SEI_H        1
 
 #include <stdint.h>
