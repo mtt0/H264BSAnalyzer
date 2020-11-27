@@ -632,7 +632,8 @@ void h265_read_short_term_ref_pic_set(bs_t* b, h265_sps_t* sps, st_ref_pic_set_t
     {
       st->delta_poc_s0_minus1[i] = bs_read_ue(b);
       st->used_by_curr_pic_s0_flag[i] = bs_read_u1(b);
-      rps->m_used[i] = st->used_by_curr_pic_s0_flag[i];
+      if (i <= MAX_NUM_REF_PICS)
+        rps->m_used[i] = st->used_by_curr_pic_s0_flag[i];
     }
     st->delta_poc_s1_minus1.resize(st->num_positive_pics);
     st->used_by_curr_pic_s1_flag.resize(st->num_positive_pics);
@@ -640,7 +641,8 @@ void h265_read_short_term_ref_pic_set(bs_t* b, h265_sps_t* sps, st_ref_pic_set_t
     {
       st->delta_poc_s1_minus1[i] = bs_read_ue(b);
       st->used_by_curr_pic_s1_flag[i] = bs_read_u1(b);
-      rps->m_used[i + st->num_negative_pics] = st->used_by_curr_pic_s1_flag[i];
+      if (i + st->num_negative_pics <= MAX_NUM_REF_PICS)
+        rps->m_used[i + st->num_negative_pics] = st->used_by_curr_pic_s1_flag[i];
     }
     rps->m_numberOfPictures = rps->m_numberOfNegativePictures + rps->m_numberOfPositivePictures;
   }
@@ -658,7 +660,7 @@ static int getNumRpsCurrTempList(h265_slice_header_t *hrd)
   if (hrd->m_pRPS == NULL) return 0; // tmp...
   // todo error
   for (int i = 0;
-    i < hrd->m_pRPS->m_numberOfNegativePictures + hrd->m_pRPS->m_numberOfPositivePictures + hrd->m_pRPS->m_numberOfLongtermPictures;
+    (i < hrd->m_pRPS->m_numberOfNegativePictures + hrd->m_pRPS->m_numberOfPositivePictures + hrd->m_pRPS->m_numberOfLongtermPictures) && i < MAX_NUM_REF_PICS;
     i++)
   {
     if (hrd->m_pRPS->m_used[i])
