@@ -17,6 +17,7 @@ int main() {
   using std::cout;
   using std::endl;
 
+#if defined(__WIN32__)
   // Send all reports to STDOUT
   _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
   _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
@@ -31,7 +32,7 @@ int main() {
   _CrtMemState start_state, end_state, diff;
 
   _CrtMemCheckpoint(&start_state);
-
+#endif // 
   {
     std::vector<TestSps> test_sps;
     uint8_t h264_sps_0[] = {0x67, 0x64, 0x00, 0x0d, 0xac, 0xd9, 0x41, 0x60,
@@ -77,6 +78,7 @@ int main() {
     }
   }
 
+#if defined(__WIN32__)
   _CrtMemCheckpoint(&end_state);
 
   OutputHeading(
@@ -85,6 +87,7 @@ int main() {
     _CrtMemDumpStatistics(&diff);
     _CrtMemDumpAllObjectsSince(&diff);
   }
+#endif // 
 
   return 0;
 }

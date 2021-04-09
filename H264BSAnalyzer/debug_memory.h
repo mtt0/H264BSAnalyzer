@@ -1,6 +1,7 @@
 ﻿#ifndef DEBUG_MEMORY_H_
 #define DEBUG_MEMORY_H_
 
+#if defined(__WIN32__)
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 #include <stdlib.h>
@@ -23,5 +24,7 @@ inline void OutputHeading(const char *explanation) {
 #define SET_CRT_DEBUG_FIELD(a) ((void)0)
 #define CLEAR_CRT_DEBUG_FIELD(a) ((void)0)
 #endif
+
+#endif // 
 
 #endif // DEBUG_MEMORY_H_
