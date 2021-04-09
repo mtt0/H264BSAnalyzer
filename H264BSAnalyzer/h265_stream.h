@@ -14,9 +14,10 @@ ref: HM16.6 source code
 #include "bs.h"
 #include "h264_stream.h" // for nal_to_rbsp, etc...
 
-#ifndef min
-#define min(a, b) (((a) < (b)) ? (a) : (b))
-#endif
+#if defined(__cplusplus)
+#include <algorithm>
+using std::min;
+#endif // 
 
 #include <vector>
 using std::vector;
